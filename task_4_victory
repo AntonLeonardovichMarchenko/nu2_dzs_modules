@@ -1,0 +1,132 @@
+import datetime
+from random import randrange
+
+class TheBornExpert:
+
+    QuizNum = 0
+
+    resOfQuizRound = [False]*10
+
+    Persons = [[], [], []]
+    PersonsMonitor = []
+
+    personIndex = 0
+
+    YearOfBorn = ''
+    MonthOfBorn = ''
+    DayOfBorn = ''
+
+    @staticmethod
+    def InitListOfPersons():
+
+        i = 0
+        TheBornExpert.Persons[0].append(i)
+        TheBornExpert.Persons[1].append('Stalin')
+        TheBornExpert.Persons[2].append(datetime.date(1879, 12, 21))
+
+        i += 1
+        TheBornExpert.Persons[0].append(i)
+        TheBornExpert.Persons[1].append('Marx')
+        TheBornExpert.Persons[2].append(datetime.date(1818, 5, 5))
+
+        i += 1
+        TheBornExpert.Persons[0].append(i)
+        TheBornExpert.Persons[1].append('Engels')
+        TheBornExpert.Persons[2].append(datetime.date(1820, 11, 28))
+
+        i += 1
+        TheBornExpert.Persons[0].append(i)
+        TheBornExpert.Persons[1].append('Mussolini')
+        TheBornExpert.Persons[2].append(datetime.date(1883, 7, 29))
+
+        i += 1
+        TheBornExpert.Persons[0].append(i)
+        TheBornExpert.Persons[1].append('Hitler')
+        TheBornExpert.Persons[2].append(datetime.date(1889, 4, 20))
+
+    # ===================================================================================
+
+
+
+    def __init__(self, quizNum):
+
+    # ===================================================================================
+        if len(TheBornExpert.Persons[0]) == 0:
+            TheBornExpert.InitListOfPersons()
+            TheBornExpert.QuizNum = quizNum
+    # ===================================================================================
+
+        for i in range(TheBornExpert.QuizNum):
+            TheBornExpert.resOfQuizRound[i] = False
+        else:
+            self.quiz()
+    # ===================================================================================
+
+
+    def quiz(self):
+    # ===================================================================================
+
+        for i in range(len(TheBornExpert.Persons[0])):
+            print(f'{TheBornExpert.Persons[1][i]} ... {TheBornExpert.Persons[2][i]}')
+
+        TheBornExpert.PersonsMonitor = []
+    # ===================================================================================
+
+        nTrue = 0
+        print(f'+------------------------------------------+')
+        for i in range(TheBornExpert.QuizNum):
+            pIndex = randrange(0, len(TheBornExpert.Persons[0]))
+            print(f'{i}:{TheBornExpert.Persons[1][pIndex]}')
+            TheBornExpert.PersonsMonitor.append(pIndex)
+            if self.bornTester(pIndex, i) == True:
+                nTrue += 1
+        print(f'+------------------------------------------+')
+        print(f'<< the result is {(nTrue*100)/TheBornExpert.QuizNum} >>')
+        print(f'+------------------------------------------+')
+
+        for i in range(0, TheBornExpert.QuizNum):
+            n = TheBornExpert.PersonsMonitor[i]
+            print(f'{i} > {TheBornExpert.Persons[1][n]} is {TheBornExpert.resOfQuizRound[i]}')
+
+    # ===================================================================================
+
+    def bornTester(self, pIndex, i):
+
+
+        while True:
+            try:
+                print(f'+------------------------------------------+')
+                print(f'|  what is the BornDay of {TheBornExpert.Persons[1][pIndex]} : ')
+                print(f'| ', end=" "); bornYear = input('year > ')
+                print(f'| ', end=" "); bornMonth = input('month > ')
+                print(f'| ', end=" "); bornDay = input('day > ')
+                print(f'+------------------------------------------+')
+
+                bornString = str(bornYear) + '-' + str(bornMonth) + '-' + str(bornDay)
+                dt = datetime.datetime.strptime(bornString, "%Y-%m-%d")
+
+                break
+
+            except ValueError:
+                print(f'|   ValueError ')
+                print(f'+------------------------------------------+')
+
+        xdate = str(dt.date())
+        print(f'the Born Day of {TheBornExpert.Persons[1][pIndex]} is {xdate}')
+        return (self.bornComparer(xdate, pIndex, i))
+
+    def bornComparer(self, xdate, pIndex, i):
+        objdate = datetime.datetime.strptime(str(TheBornExpert.Persons[2][pIndex]), "%Y-%m-%d")
+        date0 = str(objdate.date())
+
+        if date0 == xdate:
+            print(f'you are RIGHT!', end=" ")
+            print(f' {xdate} == {date0}')
+            TheBornExpert.resOfQuizRound[i] = True
+            return(True)
+        else:
+            print('you are WRONG!', end=" ")
+            print(f' {xdate} != {date0}')
+            return(False)
+
+
