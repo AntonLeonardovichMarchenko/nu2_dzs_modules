@@ -1,0 +1,32 @@
+from array import *
+
+
+class lstTransformer:
+
+    resLst = array('i')
+    mainList = []
+    mainSeparator = None
+
+    def __init__(self, separator, separatorLst, lst):
+        if separator in separatorLst:
+            lstTransformer.mainSeparator = separator
+            lstTransformer.mainList = lst
+            self.lstBuilder()
+
+    def lstBuilder(self):
+        ss = lstTransformer.mainList.split(lstTransformer.mainSeparator)
+        for i in range(0, len(ss)):
+            if (ss[i]).isdigit():
+                print(f'{i} ... {ss[i]} is digit')
+                intSS = int(ss[i])
+                lstTransformer.resLst.append(intSS)
+            else:
+                print(f'{i} ... {ss[i]} is garbage')
+
+    def getResult(self):
+        lstTransformer.resLst = set(lstTransformer.resLst)
+        lstTransformer.resLst = list(lstTransformer.resLst)
+        print('============= the result is: ===============================')
+
+        for i in range(0, len(lstTransformer.resLst)):
+            print(f'{i}: {lstTransformer.resLst[i]}')
